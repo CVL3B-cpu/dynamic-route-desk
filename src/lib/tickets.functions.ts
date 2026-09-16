@@ -2,6 +2,11 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
+
+type TicketUpdate = Database["public"]["Tables"]["tickets"]["Update"];
+type TicketEventInsert = Database["public"]["Tables"]["ticket_events"]["Insert"];
+
 import {
   DEPARTMENTS,
   PRIORITIES,
@@ -151,8 +156,8 @@ export const updateTicket = createServerFn({ method: "POST" })
     if (!current.data) throw new Error("Ticket not found");
     const ticket = current.data as unknown as Ticket;
 
-    const patch: Record<string, unknown> = {};
-    const events: Array<Record<string, unknown>> = [];
+    const patch: TicketUpdate = {};
+    const events: TicketEventInsert[] = [];
 
     if (data.status && data.status !== ticket.status) {
       patch["status"] = data.status;
