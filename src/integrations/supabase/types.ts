@@ -14,16 +14,182 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ticket_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          from_value: string | null
+          id: string
+          kind: string
+          note: string | null
+          ticket_id: string
+          to_value: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          from_value?: string | null
+          id?: string
+          kind: string
+          note?: string | null
+          ticket_id: string
+          to_value?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          from_value?: string | null
+          id?: string
+          kind?: string
+          note?: string | null
+          ticket_id?: string
+          to_value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_events_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          auto_department: Database["public"]["Enums"]["department"] | null
+          confidence: number | null
+          created_at: string
+          department: Database["public"]["Enums"]["department"] | null
+          description: string
+          id: string
+          priority: Database["public"]["Enums"]["ticket_priority"]
+          reasoning: string | null
+          ref_no: number
+          requester_email: string
+          requester_name: string
+          requester_urgency: Database["public"]["Enums"]["ticket_priority"]
+          resolved_at: string | null
+          routed_by: Database["public"]["Enums"]["routing_source"] | null
+          status: Database["public"]["Enums"]["ticket_status"]
+          summary: string | null
+          title: string
+          updated_at: string
+          was_rerouted: boolean
+        }
+        Insert: {
+          auto_department?: Database["public"]["Enums"]["department"] | null
+          confidence?: number | null
+          created_at?: string
+          department?: Database["public"]["Enums"]["department"] | null
+          description: string
+          id?: string
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          reasoning?: string | null
+          ref_no?: number
+          requester_email: string
+          requester_name: string
+          requester_urgency?: Database["public"]["Enums"]["ticket_priority"]
+          resolved_at?: string | null
+          routed_by?: Database["public"]["Enums"]["routing_source"] | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          summary?: string | null
+          title: string
+          updated_at?: string
+          was_rerouted?: boolean
+        }
+        Update: {
+          auto_department?: Database["public"]["Enums"]["department"] | null
+          confidence?: number | null
+          created_at?: string
+          department?: Database["public"]["Enums"]["department"] | null
+          description?: string
+          id?: string
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          reasoning?: string | null
+          ref_no?: number
+          requester_email?: string
+          requester_name?: string
+          requester_urgency?: Database["public"]["Enums"]["ticket_priority"]
+          resolved_at?: string | null
+          routed_by?: Database["public"]["Enums"]["routing_source"] | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          summary?: string | null
+          title?: string
+          updated_at?: string
+          was_rerouted?: boolean
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "agent"
+      department: "IT" | "HR" | "Operations" | "Finance"
+      routing_source: "ai" | "rules" | "manual"
+      ticket_priority: "low" | "medium" | "high" | "urgent"
+      ticket_status:
+        | "needs_review"
+        | "new"
+        | "in_progress"
+        | "resolved"
+        | "closed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +316,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "agent"],
+      department: ["IT", "HR", "Operations", "Finance"],
+      routing_source: ["ai", "rules", "manual"],
+      ticket_priority: ["low", "medium", "high", "urgent"],
+      ticket_status: [
+        "needs_review",
+        "new",
+        "in_progress",
+        "resolved",
+        "closed",
+      ],
+    },
   },
 } as const
