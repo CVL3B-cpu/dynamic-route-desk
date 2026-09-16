@@ -164,7 +164,7 @@ export function Metric({
     <div className="panel p-4">
       <p className="text-[11px] tracking-[0.14em] text-muted-foreground uppercase">{label}</p>
       <p className="mt-2 text-3xl font-semibold text-foreground">
-        <CountUp value={value} suffix={suffix} />
+        <CountUp value={value} suffix={suffix ?? ""} />
       </p>
       {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
     </div>
