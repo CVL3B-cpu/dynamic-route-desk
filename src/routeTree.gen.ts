@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedQueuesRouteImport } from './routes/_authenticated/queues'
 import { Route as AuthenticatedTicketsRouteImport } from './routes/_authenticated/tickets'
 import { Route as AuthenticatedQueueDepartmentRouteImport } from './routes/_authenticated/queue.$department'
+import { Route as AuthenticatedTicketIdRouteImport } from './routes/_authenticated/ticket.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,6 +31,11 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedQueuesRoute = AuthenticatedQueuesRouteImport.update({
   id: '/queues',
@@ -46,43 +53,70 @@ const AuthenticatedQueueDepartmentRoute =
     path: '/queue/$department',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTicketIdRoute = AuthenticatedTicketIdRouteImport.update({
+  id: '/ticket/$id',
+  path: '/ticket/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/queues': typeof AuthenticatedQueuesRoute
   '/tickets': typeof AuthenticatedTicketsRoute
   '/queue/$department': typeof AuthenticatedQueueDepartmentRoute
+  '/ticket/$id': typeof AuthenticatedTicketIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/queues': typeof AuthenticatedQueuesRoute
   '/tickets': typeof AuthenticatedTicketsRoute
   '/queue/$department': typeof AuthenticatedQueueDepartmentRoute
+  '/ticket/$id': typeof AuthenticatedTicketIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/queues': typeof AuthenticatedQueuesRoute
   '/_authenticated/tickets': typeof AuthenticatedTicketsRoute
   '/_authenticated/queue/$department': typeof AuthenticatedQueueDepartmentRoute
+  '/_authenticated/ticket/$id': typeof AuthenticatedTicketIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/queues' | '/tickets' | '/queue/$department'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/analytics'
+    | '/queues'
+    | '/tickets'
+    | '/queue/$department'
+    | '/ticket/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/queues' | '/tickets' | '/queue/$department'
+  to:
+    | '/'
+    | '/auth'
+    | '/analytics'
+    | '/queues'
+    | '/tickets'
+    | '/queue/$department'
+    | '/ticket/$id'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/analytics'
     | '/_authenticated/queues'
     | '/_authenticated/tickets'
     | '/_authenticated/queue/$department'
+    | '/_authenticated/ticket/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -114,6 +148,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/queues': {
       id: '/_authenticated/queues'
       path: '/queues'
@@ -135,19 +176,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedQueueDepartmentRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ticket/$id': {
+      id: '/_authenticated/ticket/$id'
+      path: '/ticket/$id'
+      fullPath: '/ticket/$id'
+      preLoaderRoute: typeof AuthenticatedTicketIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedQueuesRoute: typeof AuthenticatedQueuesRoute
   AuthenticatedTicketsRoute: typeof AuthenticatedTicketsRoute
   AuthenticatedQueueDepartmentRoute: typeof AuthenticatedQueueDepartmentRoute
+  AuthenticatedTicketIdRoute: typeof AuthenticatedTicketIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedQueuesRoute: AuthenticatedQueuesRoute,
   AuthenticatedTicketsRoute: AuthenticatedTicketsRoute,
   AuthenticatedQueueDepartmentRoute: AuthenticatedQueueDepartmentRoute,
+  AuthenticatedTicketIdRoute: AuthenticatedTicketIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
