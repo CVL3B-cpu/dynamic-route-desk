@@ -148,6 +148,9 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <Toaster />
+      <div className="pointer-events-none fixed right-4 bottom-3 z-50 font-display text-xs tracking-[0.2em] text-muted-foreground/70 uppercase select-none">
+        Caleb Krewu
+      </div>
     </QueryClientProvider>
   );
 }
