@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// watermark rendered in RootComponent
 import {
   Outlet,
   Link,
