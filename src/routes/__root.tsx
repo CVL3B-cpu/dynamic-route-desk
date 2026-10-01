@@ -1,10 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// watermark rendered in RootComponent
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
   useRouter,
   HeadContent,
+  type ErrorComponentProps,
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
@@ -36,7 +38,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -146,6 +148,9 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <Toaster />
+      <div className="pointer-events-none fixed right-4 bottom-3 z-50 font-display text-xs tracking-[0.2em] text-muted-foreground/70 uppercase select-none">
+        Caleb Krewu
+      </div>
     </QueryClientProvider>
   );
 }
